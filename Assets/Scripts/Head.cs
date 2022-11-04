@@ -8,7 +8,10 @@ public class Head : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        Destroy(col.gameObject);
+        if (col.TryGetComponent(out Pikachuu pikachuu))
+        {
+            pikachuu.OnEaten();
+        }
     }
 
 
