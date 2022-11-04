@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Head : MonoBehaviour
@@ -9,7 +6,7 @@ public class Head : MonoBehaviour
     private bool hasTappedLeft;
     
 
-    private void Update()
+    public void Update()
     {
         if (Input.GetKeyDown(KeyCode.D))
         {
@@ -22,7 +19,7 @@ public class Head : MonoBehaviour
         
     }
 
-    void FixedUpdate()
+    public void FixedUpdate()
     {
         if (Input.GetKey(KeyCode.D) || hasTappedRight)
         {
