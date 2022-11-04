@@ -1,10 +1,16 @@
+using System;
 using UnityEngine;
 
 public class Head : MonoBehaviour
 {
     private bool hasTappedRight;
     private bool hasTappedLeft;
-    
+
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        Destroy(col.gameObject);
+    }
+
 
     public void Update()
     {
