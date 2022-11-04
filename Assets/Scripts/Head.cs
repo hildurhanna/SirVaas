@@ -42,5 +42,13 @@ public class Head : MonoBehaviour
         hasTappedLeft = false;
         hasTappedRight = false;
         transform.position += transform.up;
+        if (transform.position.x > 4.5f)
+        {
+            transform.Translate(-9,0,0, Space.World);
+        }
+        else if (transform.position.x < -4.5 )
+        {
+            transform.Translate(9,0,0,Space.World);
+        }
     }
 }
