@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,16 +7,28 @@ using UnityEngine;
 public class AspectRatioFitter : MonoBehaviour
 {
     
+    [SerializeField] private Camera _camera;
+
+    private void Start()
+    {
+        if (_camera == null)
+        {
+            _camera = GetComponent<Camera>();
+        }
+    }
+
+        
+
     void Update()
     {
-        Camera camera = gameObject.GetComponent<Camera>();
+        
         if (IsInLandscapeMode())
         {
-            camera.orthographicSize = 4.5f;
+            _camera.orthographicSize = 4.5f;
         }
         else
         {
-            camera.orthographicSize = 4.5f * Screen.height / Screen.width;
+            _camera.orthographicSize = 4.5f * Screen.height / Screen.width;
         }
     }
     
