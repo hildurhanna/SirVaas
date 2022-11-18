@@ -1,54 +1,86 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class Head : MonoBehaviour
+[Serializable]
+public class RotationHandler
 {
-    private bool hasTappedRight;
-    private bool hasTappedLeft;
+    public KeyCode input;
+    public Vector3 direction;
+    public Transform transform;
 
-    private void OnTriggerEnter2D(Collider2D col)
+    private bool hasTapped;
+
+    
+    public void Update()
     {
-        if (col.TryGetComponent(out Pikachuu pikachuu))
+        if (Input.GetKeyDown(input))
         {
-            pikachuu.OnEaten();
+            hasTapped = true;
         }
     }
+
+    public void FixedUpdate()
+    {
+        Debug.Log($"Input {input} pressed: {Input.GetKey(input)}");
+        if (Input.GetKey(input) || hasTapped)
+        {
+            transform.Rotate(direction);
+        }
+
+        hasTapped = false;
+    }
+}
+public class Head : MonoBehaviour
+{
+    public RotationHandler[] rotationHandlers;
+    [SerializeField] private GameField _gameField;
+    [SerializeField] private Body _bodyPrefab;
+    
+    void Start()
+    {
+        Vector3 position = Vector3.zero;
+        position.x = _gameField.width / 2 - _gameField.HalfWidth + .5f;
+        position.y = _gameField.height / 2 - _gameField.HalfHeight + .5f;
+    }
+
+    
 
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.D))
+        for (int i = 0; i < rotationHandlers.Length; i++)
         {
-            hasTappedRight = true;
-        }
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            hasTappedLeft = true;
+            rotationHandlers[i].Update();
         }
         
     }
 
     public void FixedUpdate()
     {
-        if (Input.GetKey(KeyCode.D) || hasTappedRight)
+        for (int i = 0; i < rotationHandlers.Length; i++)
         {
-            transform.Rotate(0,0,-90);
-        }
-        if (Input.GetKey(KeyCode.A) || hasTappedLeft)
-        {
-            transform.Rotate(0,0,90);
+            rotationHandlers[i].FixedUpdate();
         }
 
-        hasTappedLeft = false;
-        hasTappedRight = false;
-        transform.position += transform.up;
-        if (transform.position.x > 4.5f)
+        Vector3 nextPosition = transform.position + transform.up;
+        nextPosition.x = (nextPosition.x + 3*_gameField.HalfWidth) % _gameField.width - _gameField.HalfWidth;
+        nextPosition.y = (nextPosition.y + 3*_gameField.HalfHeight) % _gameField.height - _gameField.HalfHeight;
+
+        RaycastHit2D hit = Physics2D.BoxCast((Vector2)nextPosition, Vector2.one*.9f, 0f, Vector2.zero);
+        Pikachuu pikachuu = hit.collider?.GetComponent<Pikachuu>();
+        if (pikachuu == null)
         {
-            transform.Translate(-9,0,0, Space.World);
+            //no pikachuu eaten, move da lazy bod
         }
-        else if (transform.position.x < -4.5 )
+        else
         {
-            transform.Translate(9,0,0,Space.World);
+            //pikachuu in belly, get growin
+            Body newBody = Instantiate(_bodyPrefab, transform.position, transform.rotation);
+            pikachuu.OnEaten();
         }
+        transform.position = nextPosition;
+
+
     }
 }

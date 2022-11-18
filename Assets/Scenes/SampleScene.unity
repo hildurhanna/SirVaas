@@ -205,7 +205,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c7a4de32214cd24ab26d065d93107f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _camera: {fileID: 519420031}
+  _gameField: {fileID: 569607523}
 --- !u!224 &519420034
 RectTransform:
   m_ObjectHideFlags: 0
@@ -236,6 +236,7 @@ GameObject:
   m_Component:
   - component: {fileID: 569607522}
   - component: {fileID: 569607521}
+  - component: {fileID: 569607523}
   m_Layer: 0
   m_Name: GameField
   m_TagString: Untagged
@@ -310,6 +311,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &569607523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 569607520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea542d88214dbb34c999437efbeecbb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  width: 9
+  height: 9
 --- !u!1 &1091109574
 GameObject:
   m_ObjectHideFlags: 0
@@ -409,6 +424,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7817899714204149919690ddbfd379b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rotationHandlers:
+  - input: 119
+    direction: {x: 0, y: 0, z: 90}
+    transform: {fileID: 1091109576}
+  - input: 97
+    direction: {x: 0, y: 0, z: -90}
+    transform: {fileID: 1091109576}
+  _gameField: {fileID: 569607523}
+  _bodyPrefab: {fileID: 3871340282782579946, guid: c854641fca21d4741bd3b8b0cf1cfd11, type: 3}
 --- !u!61 &1091109578
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -580,3 +604,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d23312bfb4865a4f844beee1b6c3e6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _gamefield: {fileID: 569607523}
